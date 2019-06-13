@@ -1,0 +1,65 @@
+<div>
+  Currency pipe:
+  {{ amount | currency : 'CAD' }}
+</div>
+
+<div>
+  Date:
+  {{ today | date : 'full' : '+0800' }}
+</div>
+
+<div>
+  Decimal:
+  {{ decimalValue | number : '1.0-2' }}
+</div>
+
+<div>
+  Internationalization select:
+  {{ i18nValue | i18nSelect : i18nValueMap }}
+</div>
+
+<div>
+  Internationalization plural:
+  {{ i18nPluralValue | i18nPlural : i18nPluralValueMap }}
+</div>
+
+<div>
+  Json:
+  <pre>
+{{ objValue | json }}
+  </pre>
+</div>
+
+<div>
+  Key value:
+  <ul>
+    <li *ngFor="let item of objValue | keyvalue">
+      {{item.key}}: {{item.value}}
+    </li>
+  </ul>
+</div>
+
+<div>
+  Lowercase:
+  {{ phrase | lowercase }}
+</div>
+
+<div>
+  Titlecase:
+  {{ phrase | titlecase }}
+</div>
+
+<div>
+  Uppercase:
+  {{ phrase | uppercase }}
+</div>
+
+<div>
+  Percentage:
+  {{ percentage | percent }}
+</div>
+
+<div> 
+  Slice:
+  {{ phrase | slice : 2 : 5 }}
+</div>
