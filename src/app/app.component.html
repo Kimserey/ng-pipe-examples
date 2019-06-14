@@ -1,6 +1,8 @@
 <div>
   Currency pipe:
-  {{ amount | currency : 'CAD' }}
+  {{ negativeAmount | currency : 'CAD' }}
+<br/>
+  {{ amount | currency : 'EUR' : 'symbol' : '1.3-5' }}
 </div>
 
 <div>
@@ -15,7 +17,7 @@
 
 <div>
   Internationalization select:
-  {{ i18nValue | i18nSelect : i18nValueMap }}
+  {{ gender | i18nSelect : i18nValueMap }}
 </div>
 
 <div>
@@ -33,7 +35,7 @@
 <div>
   Key value:
   <ul>
-    <li *ngFor="let item of objValue | keyvalue">
+    <li *ngFor="let item of objValue | keyvalue | slice">
       {{item.key}}: {{item.value}}
     </li>
   </ul>
@@ -56,7 +58,7 @@
 
 <div>
   Percentage:
-  {{ percentage | percent }}
+  {{ percentage | percent : '1.3-4' }}
 </div>
 
 <div> 

@@ -6,18 +6,19 @@ import { Component } from '@angular/core';
   styles: []
 })
 export class AppComponent {
-  amount: number = 123;
+  negativeAmount: number = -123.105;
+  amount: number = 123.10545;
 
   today: Date = new Date();
 
   decimalValue: number = 123.432432;
   
-  i18nValue: string = 'female';
-
   i18nValueMap: any = {
     'male': 'He',
     'female': 'She'
   };
+
+  gender: string = 'female';
 
   i18nPluralValue: number = 3;
 
@@ -35,5 +36,5 @@ export class AppComponent {
 
   phrase: string = 'Hello this is a test';
 
-  percentage: number = 0.1;
+  percentage: number = 0.15345;
 }
