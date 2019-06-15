@@ -1,0 +1,28 @@
+<div class="container my-3" *ngIf="currencies$ | async as currencies">
+  <label>Amount</label>
+  <div class="form-group">
+    <input type="number" class="form-control" [formControl]="input" />
+  </div>
+
+  <div class="form-group">
+    <label>From</label>
+    <select class="form-control" [formControl]="inputCurrency">
+      <option *ngFor="let cur of currencies">{{cur}}</option>
+    </select>
+  </div>
+
+  <div>
+    <label>To</label>
+    <select class="form-control" [formControl]="targetCurrency">
+      <option *ngFor="let cur of currencies">{{cur}}</option>
+    </select>
+  </div>
+
+  <p>
+    <strong *ngIf="result$ | async as result">{{ input.value | currency : inputCurrency.value : 'symbol' : '1.4-4' }} =
+      {{ result | currency : targetCurrency.value : 'symbol' : '1.4-4' }}</strong>
+    <br />
+    <small *ngIf="rate$ | async as rate">{{ '1' | currency : inputCurrency.value : 'symbol' : '1.4-4' }} =
+      {{ rate | currency : targetCurrency.value : 'symbol' : '1.4-4' }}</small>
+  </p>
+</div>

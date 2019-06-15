@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "http://ec.europa.eu/budg/inforeuro/api/public/monthly-rates",
+    "pathRewrite": { "^/api": "" },
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
