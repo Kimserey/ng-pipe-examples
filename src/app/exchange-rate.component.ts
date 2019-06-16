@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './exchange-rate.component.html'
 })
 export class ExchangeRateComponent implements OnInit {
-  input = new FormControl([1]);
+  input = new FormControl();
   inputCurrency = new FormControl(['EUR']);
   targetCurrency = new FormControl(['EUR']);
   
@@ -35,8 +35,7 @@ export class ExchangeRateComponent implements OnInit {
         switchMap(([inputCur, targetCur]) => this.service.convert(1, inputCur, targetCur))
       );
 
-    this.currencies$ =
-        this.service.getCurrencies();
+      this.input.setValue(1);
   }
 
   constructor(private service: ExchangeRateService) { }

@@ -1,19 +1,23 @@
-<div class="container">
+<div class="container my-3">
   <div class="form-inline">
-    <input type="number" class="mb-1 mr-md-2 form-control" [formControl]="input" />
-    <select class="mb-1 form-control" [formControl]="inputCurrency">
-      <option>GBP</option>
-      <option>EUR</option>
-      <option>SGD</option>
-      <option>USD</option>
-    </select>
-    <span class="mx-md-3">→</span>
-    <select class="mb-1 form-control" [formControl]="targetCurrency">
-      <option>GBP</option>
-      <option>EUR</option>
-      <option>SGD</option>
-      <option>USD</option>
-    </select>
+    <div class="form-group">
+      <input type="number" class="mb-1 mr-sm-2 form-control" [formControl]="input" />
+      <select class="mb-1 form-control" [formControl]="inputCurrency">
+        <option>CAD</option>
+        <option>GBP</option>
+        <option>EUR</option>
+        <option>SGD</option>
+        <option>USD</option>
+      </select>
+      <span class="mx-sm-3">→</span>
+      <select class="mb-1 form-control" [formControl]="targetCurrency">
+        <option>CAD</option>
+        <option>GBP</option>
+        <option>EUR</option>
+        <option>SGD</option>
+        <option>USD</option>
+      </select>
+    </div>
   </div>
 
   <div class="py-2">
