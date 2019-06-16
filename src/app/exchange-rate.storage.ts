@@ -14,6 +14,10 @@ interface ExchangeRateDB extends DBSchema {
   }
 }
 
+interface StaleWhileRevalidateOptions<T> {
+  fetch(): Promise<T>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,35 +32,40 @@ export class ExchangeRateStorage {
     );
   }
 
-  getRate(currencyCode: string): Observable<{ value: number, updated: Date }> {
+  staleWhileRevalidate<T>(key, store, options: StaleWhileRevalidateOptions<T>) {
     const subject =
-      new ReplaySubject<{ value: number, updated: Date }>();
+      new ReplaySubject<T>();
 
     return this.getDb().pipe(
       switchMap(db => {
-        db.get('rates', currencyCode)
-          .then(val => {
-            if(!!val)
-              subject.next(val);
-          });
-        
-        this.retrieveRate(currencyCode)
-          .then(val => {
-            const value = {
-              value: val,
-              updated: new Date()
-            };
-
-            db.put('rates', value, currencyCode);
-            subject.next(value);
-          });
+        db.get(store, key)
+          .then(val => { if (!!val) subject.next(val); })
+          .catch(reason => console.log("IndexedDB error", reason))
+          .then(() =>
+            options.fetch()
+              .then(val => {
+                subject.next(val);
+                db.put(store, val, key)
+                  .catch(reason => console.log("IndexedDB error", reason))
+              })
+              .catch(() => console.log("Offline"))
+          );
 
         return subject;
       })
     );
   }
 
-  private async retrieveRate(currencyCode: string): Promise<number> {
+  getRate(currencyCode: string): Observable<{ value: number, updated: Date }> {
+    return this.staleWhileRevalidate<{ value: number, updated: Date }>(currencyCode, 'rates', {
+      fetch() {
+        return this.fetchRate(currencyCode);
+      }
+    }
+    );
+  }
+
+  private async fetchRate(currencyCode: string): Promise<number> {
     var values = await this.http.get<{ isoA3Code: string, value: number }[]>("/api").toPromise();
     return values.find(v => v.isoA3Code == currencyCode).value;
   }
