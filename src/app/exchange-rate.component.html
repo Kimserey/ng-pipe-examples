@@ -25,10 +25,7 @@
     <div style="font-size: xx-large" *ngIf="result$ | async as result">
       {{ result | currency : targetCurrency.value }}
     </div>
-  </div>
-
-  <div *ngIf="storage$ | async as storage">
-    <div>{{storage.value}}</div>
-    <div>{{storage.updated | date }}</div>
+    <div>
+    </div>
   </div>
 </div>

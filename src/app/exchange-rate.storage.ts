@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
 import { Observable, from, ReplaySubject } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 interface ExchangeRateDB extends DBSchema {
   'rates': {
@@ -32,6 +32,7 @@ export class ExchangeRateStorage {
     );
   }
 
+  // Returns potentially stale rates while revalidating the latest rate.
   staleWhileRevalidate<T>(key, store, options: StaleWhileRevalidateOptions<T>) {
     const subject =
       new ReplaySubject<T>();
@@ -57,17 +58,16 @@ export class ExchangeRateStorage {
   }
 
   getRate(currencyCode: string): Observable<{ value: number, updated: Date }> {
-    return this.staleWhileRevalidate<{ value: number, updated: Date }>(currencyCode, 'rates', {
-      fetch() {
-        return this.fetchRate(currencyCode);
-      }
-    }
-    );
+    var fetch = () => this.fetchRate(currencyCode);
+    return this.staleWhileRevalidate<{ value: number, updated: Date }>(currencyCode, 'rates', { fetch });
   }
 
-  private async fetchRate(currencyCode: string): Promise<number> {
+  private async fetchRate(currencyCode: string): Promise<{ value: number, updated: Date }> {
     var values = await this.http.get<{ isoA3Code: string, value: number }[]>("/api").toPromise();
-    return values.find(v => v.isoA3Code == currencyCode).value;
+    return {
+      value: values.find(v => v.isoA3Code == currencyCode).value,
+      updated: new Date()
+    };
   }
 
   constructor(private http: HttpClient) { }
