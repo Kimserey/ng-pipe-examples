@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { ExchangeRateStorage } from './exchange-rate.storage';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,5 @@ export class ExchangeRateService {
         );
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private storage: ExchangeRateStorage, private http: HttpClient) { }
 }
