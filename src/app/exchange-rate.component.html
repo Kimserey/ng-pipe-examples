@@ -23,7 +23,7 @@
   <div class="py-2">
     {{ input.value | currency : inputCurrency.value }} is equals to
     <div style="font-size: xx-large" *ngIf="result$ | async as result">
-      {{ result | currency : targetCurrency.value }}
+      {{ result.value | currency : result.currencyCode }}
     </div>
     <div>
     </div>

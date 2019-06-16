@@ -15,8 +15,7 @@ export class ExchangeRateComponent implements OnInit {
   targetCurrency = new FormControl(['EUR']);
 
   currencies$: Observable<string[]>;
-  result$: Observable<number>;
-  rate$: Observable<number>;
+  result$: Observable<{ value: number, currencyCode: string }>;
 
   storage$: Observable<{ value: number, updated: Date }>;
 
@@ -30,20 +29,7 @@ export class ExchangeRateComponent implements OnInit {
         switchMap(([val, inputCur, targetCur]) => this.service.convert(val, inputCur, targetCur))
       );
 
-    this.rate$ =
-      combineLatest(
-        merge(of('EUR'), this.inputCurrency.valueChanges),
-        merge(of('EUR'), this.targetCurrency.valueChanges)
-      ).pipe(
-        switchMap(([inputCur, targetCur]) => this.service.convert(1, inputCur, targetCur))
-      );
-
     this.input.setValue(1);
-
-    this.storage$ =
-        this.targetCurrency
-          .valueChanges
-          .pipe(switchMap(cur => this.storage.getRate(cur)));
   }
 
   constructor(private service: ExchangeRateService, private storage: ExchangeRateStorage) { }
