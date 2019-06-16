@@ -12,7 +12,7 @@ export class ExchangeRateComponent implements OnInit {
   input = new FormControl();
   inputCurrency = new FormControl(['EUR']);
   targetCurrency = new FormControl(['EUR']);
-  
+
   currencies$: Observable<string[]>;
   result$: Observable<number>;
   rate$: Observable<number>;
@@ -35,7 +35,7 @@ export class ExchangeRateComponent implements OnInit {
         switchMap(([inputCur, targetCur]) => this.service.convert(1, inputCur, targetCur))
       );
 
-      this.input.setValue(1);
+    this.input.setValue(1);
   }
 
   constructor(private service: ExchangeRateService) { }

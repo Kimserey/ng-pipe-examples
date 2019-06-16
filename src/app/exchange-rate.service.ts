@@ -7,18 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ExchangeRateService {
-  getCurrencies(): Observable<string[]> {
-    return this.http
-      .get<{ country: string, isoA3Code: string, value: number }[]>("/api")
-      .pipe(
-        map(rates => {
-          var codes = rates.map(r => r.isoA3Code)
-          return codes.filter((cur, index) => codes.indexOf(cur) === index);
-        })
-      );
-  }
-  
-  // Base is in EUR.
+  // Base currency in EUR.
   // (1 / EURCUR) * EURTAR = CURTAR
   convert(value: number, currencyCode: string, targetCode: string): Observable<number> {
     return this.http
