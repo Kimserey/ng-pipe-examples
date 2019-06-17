@@ -14,10 +14,26 @@ export class ExchangeRateComponent implements OnInit {
   inputCurrency = new FormControl(['EUR']);
   targetCurrency = new FormControl(['EUR']);
 
-  currencies$: Observable<string[]>;
   result$: Observable<{ value: number, currencyCode: string }>;
 
   storage$: Observable<{ value: number, updated: Date }>;
+
+  currencies = [{
+    currencyCode: 'CAD',
+    description: 'Canadian Doller'
+  }, {
+    currencyCode: 'EUR',
+    description: 'Euro'
+  }, {
+    currencyCode: 'GBP',
+    description: 'Britain Pound'
+  }, {
+    currencyCode: 'USD',
+    description: 'US Dollar'
+  }, {
+    currencyCode: 'SGD',
+    description: 'Singapore Dollar'
+  }]
 
   ngOnInit() {
     this.result$ =
